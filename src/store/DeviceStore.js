@@ -11,6 +11,8 @@ export default class DeviceStore {
     this._brands = [
       { id: 1, name: 'Samsung' },
       { id: 2, name: 'Apple' },
+      { id: 3, name: 'Lenovo' },
+      { id: 4, name: 'Acer' },
     ];
     this._devices = [
       {
@@ -36,6 +38,20 @@ export default class DeviceStore {
       },
       {
         id: 4,
+        name: 'Iphone 12 pro',
+        price: 25000,
+        rating: 5,
+        img: 'https://www.hdretail.ru/upload/iblock/8d0/8d01c02a7a68c45e7d021d9d44efab9f.jpg',
+      },
+      {
+        id: 5,
+        name: 'Iphone 12 pro',
+        price: 25000,
+        rating: 5,
+        img: 'https://www.hdretail.ru/upload/iblock/8d0/8d01c02a7a68c45e7d021d9d44efab9f.jpg',
+      },
+      {
+        id: 6,
         name: 'Iphone 12 pro',
         price: 25000,
         rating: 5,

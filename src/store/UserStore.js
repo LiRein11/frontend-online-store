@@ -11,15 +11,15 @@ export default class UserStore {
     this._isAuth = bool;
   } // Экшены - функции, который каким-либо образом изменяют состояние
 
-  setUser(bool) {
-    this._isAuth = bool;
+  setUser(user) {
+    this._user = user;
   }
 
   get isAuth() {
     return this._isAuth;
   } // Геттеры - нужны для того, чтобы получать переменные из состояния
 
-  get User() {
-    return this._isAuth;
+  get user() {
+    return this._user;
   }
 }
