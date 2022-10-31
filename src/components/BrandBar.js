@@ -2,7 +2,8 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Card, Row } from 'react-bootstrap';
 import { Context } from '../index';
-const BrandBar = observer(() => {
+
+const BrandBar = observer(() => { 
   const { device } = useContext(Context);
   return (
     <Row className='d-flex'>
