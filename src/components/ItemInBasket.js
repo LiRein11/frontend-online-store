@@ -1,10 +1,11 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Card, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import star from '../assets/star.png';
 import { DEVICE_ROUTE } from '../utils/consts';
 
-const ItemInBasket = ({ device }) => {
+const ItemInBasket = observer(({ device }) => {
   const navigate = useNavigate();
   return (
     <Col md={3} className='mt-3' onClick={() => navigate(DEVICE_ROUTE + '/' + device.id)}>
@@ -20,6 +21,6 @@ const ItemInBasket = ({ device }) => {
       </Card>
     </Col>
   );
-};
+});
 
 export default ItemInBasket;

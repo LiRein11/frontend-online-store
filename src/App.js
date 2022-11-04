@@ -4,21 +4,30 @@ import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import NavBar from './components/NavBar';
+import { getDeviceFromBasket } from './http/deviceAPI';
 import { check } from './http/userAPI';
 import { Context } from './index';
 
 const App = observer(() => {
-  const { user } = useContext(Context);
+  const { user, basket } = useContext(Context);
   const [loading, setLoading] = useState(true); // Загрузка страницы, как только запрос на сервер выполнится, пользователь зайдет, и вся страница прогрузится, состояние станет false
 
   useEffect(() => {
-      check()
-        .then((data) => {
-          user.setUser(true);
-          user.setIsAuth(true);
-        })
-        .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара 
+    check()
+      .then((data) => {
+        user.setUser(true);
+        user.setIsAuth(true);
+      })
+      .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара
   }, []);
+
+  useEffect(() => {
+    if(user.isAuth === true)getDeviceFromBasket().then((data) => {
+      for (let key in data) {
+        basket.setBasket(data[key]);
+      }
+    });
+  }, [basket, user.isAuth]);
 
   if (loading) {
     return <Spinner animation={'grow'} />;

@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import BigStar from '../assets/BigStar.png';
 import { useParams } from 'react-router-dom';
-import { fetchOneDevice } from '../http/deviceAPI';
+import { addDeviceToBasket, fetchOneDevice } from '../http/deviceAPI';
+import { Context } from '..';
+import { observer } from 'mobx-react-lite';
 
-const DevicePage = () => {
+const DevicePage = observer(() => {
+  const { user, basket} = useContext(Context);
   const [device, setDevice] = React.useState({ info: [] });
-  const {id} = useParams()
+  const { id } = useParams();
 
   React.useEffect(() => {
-    fetchOneDevice(id).then(data => setDevice(data))
+    fetchOneDevice(id).then((data) => setDevice(data));
   }, []);
+
+  const addDeviceInBasket = (device) => {
+    if (user.isAuth) {
+      addDeviceToBasket(device).then(()=> basket.setBasket(device)); 
+    } else{
+      basket.setBasket(device)
+    }
+  };
+
   return (
     <Container className='mt-3 '>
       <Row className='d-flex'>
@@ -38,7 +50,9 @@ const DevicePage = () => {
             className='d-flex flex-column align-items-center justify-content-around'
             style={{ width: 300, height: 300, fontSize: 32, border: '5px solid lightgray' }}>
             <h3>От: {device.price}руб.</h3>
-            <Button variant={'outline-dark'}>Добавить в корзину</Button>
+            <Button variant={'outline-dark'} onClick={() => addDeviceInBasket(device)}>
+              Добавить в корзину
+            </Button>
           </Card>
         </Col>
       </Row>
@@ -54,6 +68,6 @@ const DevicePage = () => {
       </Row>
     </Container>
   );
-};
+});
 
 export default DevicePage;
