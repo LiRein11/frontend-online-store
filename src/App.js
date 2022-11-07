@@ -4,7 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import NavBar from './components/NavBar';
-import { getDeviceFromBasket } from './http/deviceAPI';
+import { getDevicesFromBasket } from './http/deviceAPI';
 import { check } from './http/userAPI';
 import { Context } from './index';
 
@@ -22,12 +22,14 @@ const App = observer(() => {
   }, []);
 
   useEffect(() => {
-    if(user.isAuth === true)getDeviceFromBasket().then((data) => {
-      for (let key in data) {
-        basket.setBasket(data[key]);
-      }
-    });
-  }, [basket, user.isAuth]);
+    if (user.isAuth === true) {
+      getDevicesFromBasket().then((data) => {
+        for (let key in data) {
+          basket.setBasket(data[key]); 
+        }
+      });
+    }
+  }, [basket, user.isAuth]); 
 
   if (loading) {
     return <Spinner animation={'grow'} />;

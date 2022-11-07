@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import cart from '../assets/cart.png';
 
 const NavBar = observer(({ price, countItem }) => {
-  const { user } = useContext(Context);
+  const { user, basket } = useContext(Context);
   const navigate = useNavigate();
 
   const logout = () => {
@@ -26,7 +26,7 @@ const NavBar = observer(({ price, countItem }) => {
             <Nav className='me-auto' style={{ color: 'white' }}>
               <NavLink className='d-flex align-items-center'>
                 <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
-                  0
+                  {basket._basket.length}
                 </div>
                 <Image
                   src={cart}
@@ -34,7 +34,7 @@ const NavBar = observer(({ price, countItem }) => {
                   height={18}
                   onClick={() => navigate(BASKET_ROUTE)}></Image>
                 <div className='ml-2' style={{ textDecoration: 'none', color: 'white' }}>
-                  0 RUB
+                  {basket._totalPrice} RUB
                 </div>
               </NavLink>
               <Button variant={'outline-light'} onClick={() => navigate(ADMIN_ROUTE)}>

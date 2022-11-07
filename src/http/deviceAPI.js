@@ -48,7 +48,11 @@ export const addDeviceToBasket = async (device) => {
   return data;
 };
 
-export const getDeviceFromBasket = async () => {
+export const getDevicesFromBasket = async () => {
   const { data } = await $authHost.get('api/basket/devices');
   return data;
 };
+
+export const deleteDeviceFromBasket = async(id)=>{
+  await $authHost.delete('api/basket/' + id)
+}

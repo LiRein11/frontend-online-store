@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { Row } from 'react-bootstrap';
+import { Container, Row, Button } from 'react-bootstrap';
 import { Context } from '..';
 import ItemInBasket from '../components/ItemInBasket';
+import { deleteDeviceFromBasket } from '../http/deviceAPI';
 
 const Basket = observer(() => {
   const { basket } = useContext(Context);
-  console.log(basket)
+  console.log(basket);
   if (basket.Basket.length === 0) {
     return (
       <div className='d-flex flex-column align-items-center mt-3'>
@@ -16,14 +17,20 @@ const Basket = observer(() => {
       </div>
     );
   }
-  
 
   return (
-    <Row>
-      {basket.Basket.map((device) => (
-        <ItemInBasket key={device.id} device={device} />
-      ))}
-    </Row>
+    <Container>
+      <Row>
+        {basket.Basket.map((device) => (
+          <div>
+            <ItemInBasket key={device.id} device={device} />
+            <Button variant='outline-dark' onClick={() => basket.setDeleteDeviceFromBasket(device)}>
+              Удалить
+            </Button>
+          </div>
+        ))}
+      </Row>
+    </Container>
   );
 });
 
