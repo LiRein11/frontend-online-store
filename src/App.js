@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import NavBar from './components/NavBar';
-import { getDevicesFromBasket } from './http/deviceAPI';
+import { getDevicesFromBasket, getOneBasket } from './http/deviceAPI';
 import { check } from './http/userAPI';
 import { Context } from './index';
 
@@ -21,15 +21,22 @@ const App = observer(() => {
       .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара
   }, []);
 
-  useEffect(() => {
-    if (user.isAuth === true) {
-      getDevicesFromBasket().then((data) => {
-        for (let key in data) {
-          basket.setBasket(data[key]); 
-        }
-      });
+  useMemo(() => {
+    // if (user.isAuth === true) {
+    //   getDevicesFromBasket().then((data) => {
+    //     for (let key in data) {
+    //       basket.setBasket(data[key]); 
+    //     }
+    //   });
+    // }
+    if(user.isAuth === true){
+      getOneBasket().then((data)=>{
+        basket.setOneBasket(data.basket_devices)
+      })
+    } else {
+      basket.setResetBasket()
     }
-  }, [basket, user.isAuth]); 
+  }, [user.isAuth]); 
 
   if (loading) {
     return <Spinner animation={'grow'} />;

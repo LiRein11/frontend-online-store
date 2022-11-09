@@ -26,6 +26,13 @@ export default class BasketStore {
     this._basket = [this._basket];
   }
 
+  setOneBasket(basket) {
+    const basketDevices = basket.map((el) => {
+      this._basket = [...this._basket, el];
+      this._totalPrice = this._totalPrice + el.device.price;
+    });
+  }
+
   setBasket(device) {
     // const checkDeviceInBasket = this._basket.findIndex((device) => device.id === item.id);
     // if (checkDeviceInBasket < 0) {
@@ -38,13 +45,20 @@ export default class BasketStore {
     // if (!isAuth) {
     //   localStorage.setItem('basket', JSON.stringify(this._basket));
     // }
-    this._basket = [...this._basket, {...device }];
+    this._basket = [...this._basket, { ...device }];
     this._totalPrice = this._totalPrice + device.price;
   }
 
-  async setDeleteDeviceFromBasket(device){
-    await deleteDeviceFromBasket(device.id).then(()=>
-    this._basket = this._basket.find(item => item.id !== device.id)) 
+  async setDeleteDeviceFromBasket(device) {
+    await deleteDeviceFromBasket(device.id).then(
+      () => (this._basket = this._basket.filter((item) => item.id !== device.id)),
+      (this._totalPrice = this._totalPrice - device.device.price),
+    );
+  }
+
+  setResetBasket(){
+    this._basket = []
+    this._totalPrice = 0
   }
 
   get Basket() {
