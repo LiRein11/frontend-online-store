@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
-import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Dropdown, Image, Row } from 'react-bootstrap';
 import BigStar from '../assets/BigStar.png';
 import { useParams } from 'react-router-dom';
-import { addDeviceToBasket, fetchOneDevice } from '../http/deviceAPI';
+import { addDeviceToBasket, addRating, fetchOneDevice } from '../http/deviceAPI';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
+import RatingStars from '../components/Rating';
 
 const DevicePage = observer(() => {
-  const { user, basket} = useContext(Context);
+  const { user, basket } = useContext(Context);
   const [device, setDevice] = React.useState({ info: [] });
   const { id } = useParams();
+  const [resRate, setResRate] = React.useState('');
 
   React.useEffect(() => {
     fetchOneDevice(id).then((data) => setDevice(data));
@@ -17,10 +19,17 @@ const DevicePage = observer(() => {
 
   const addDeviceInBasket = (device) => {
     if (user.isAuth) {
-      addDeviceToBasket(device).then(()=> basket.setBasket(device, true)); 
-    } else{
-      basket.setBasket(device)
+      addDeviceToBasket(device).then(() => basket.setBasket(device, true));
+    } else {
+      basket.setBasket(device);
     }
+  };
+
+  console.log(device);
+  const clickRating = (rate) => {
+    addRating({ rate, deviceId: id }).then((res) => {
+      setResRate(res);
+    });
   };
 
   return (
@@ -41,8 +50,9 @@ const DevicePage = observer(() => {
                 backgroundSize: 'cover',
                 fontSize: 64,
               }}>
-              {device.rating}
+              {device?.rating || 0}
             </div>
+              <RatingStars clickRating={clickRating} ratingVal={device?.rating || 0} />
           </Row>
         </Col>
         <Col md={4}>
@@ -57,7 +67,7 @@ const DevicePage = observer(() => {
         </Col>
       </Row>
       <Row className='d-flex flex-column mt-3'>
-        <h1>Характеристики</h1>
+        <h1>Характеристики:</h1>
         {device.info.map((el, i) => (
           <Row
             key={el.id}

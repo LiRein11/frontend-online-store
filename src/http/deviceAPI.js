@@ -61,3 +61,8 @@ export const getOneBasket = async () => {
 export const deleteDeviceFromBasket = async(id)=>{
   await $authHost.delete('api/basket/devices/' + id)
 }
+
+export const addRating = async (body) => {
+  const {data} = await $authHost.post('api/rating/', body);
+  return data;
+};

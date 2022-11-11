@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
@@ -21,7 +21,7 @@ const App = observer(() => {
       .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     // if (user.isAuth === true) {
     //   getDevicesFromBasket().then((data) => {
     //     for (let key in data) {
