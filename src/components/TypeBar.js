@@ -5,8 +5,15 @@ import { Context } from '../index';
 
 const TypeBar = observer(() => {
   const { device } = useContext(Context); 
+
+  const getAllDevices = ()=>{
+    device.setSelectedType('Все')
+    device.setSelectedBrand('Все')
+  }
+
   return (
     <ListGroup>
+      <ListGroup.Item style={{ cursor: 'pointer' }} onClick={getAllDevices} active={'Все' === device.selectedType}>Все</ListGroup.Item>
       {device.types.map((type) => (
         <ListGroup.Item
           style={{ cursor: 'pointer' }}

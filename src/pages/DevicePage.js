@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Button, Card, Col, Container, Dropdown, Image, Row } from 'react-bootstrap';
 import BigStar from '../assets/BigStar.png';
 import { useParams } from 'react-router-dom';
-import { addDeviceToBasket, addRating, fetchOneDevice } from '../http/deviceAPI';
+import { addDeviceToBasket, addRating, checkRating, fetchOneDevice } from '../http/deviceAPI';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 import RatingStars from '../components/Rating';
@@ -12,20 +12,23 @@ const DevicePage = observer(() => {
   const [device, setDevice] = React.useState({ info: [] });
   const { id } = useParams();
   const [resRate, setResRate] = React.useState('');
+  const [isAccessRating, setIsAccessRating] = React.useState(false);
 
   React.useEffect(() => {
     fetchOneDevice(id).then((data) => setDevice(data));
-  }, []);
+    if (user.isAuth) {
+      checkRating({ deviceId: id }).then((res) => setIsAccessRating(res.allow));
+    }
+  }, [id, resRate]);
 
   const addDeviceInBasket = (device) => {
     if (user.isAuth) {
       addDeviceToBasket(device).then(() => basket.setBasket(device, true));
-    } else {
+    } else if (user.isAuth===false){
       basket.setBasket(device);
     }
   };
 
-  console.log(device);
   const clickRating = (rate) => {
     addRating({ rate, deviceId: id }).then((res) => {
       setResRate(res);
@@ -40,7 +43,7 @@ const DevicePage = observer(() => {
         </Col>
         <Col md={4}>
           <Row className='d-flex flex-column align-items-center'>
-            <h2>{device.name}</h2>
+            <h2>{device?.name}</h2>
             <div
               className='d-flex align-items-center justify-content-center'
               style={{
@@ -52,14 +55,20 @@ const DevicePage = observer(() => {
               }}>
               {device?.rating || 0}
             </div>
-              <RatingStars clickRating={clickRating} ratingVal={device?.rating || 0} />
+            <RatingStars
+              clickRating={clickRating}
+              ratingVal={device?.rating || 0}
+              isAuth={user.isAuth}
+              isAccessRating={isAccessRating}
+            />
+            {resRate}
           </Row>
         </Col>
         <Col md={4}>
           <Card
             className='d-flex flex-column align-items-center justify-content-around'
             style={{ width: 300, height: 300, fontSize: 32, border: '5px solid lightgray' }}>
-            <h3>От: {device.price}руб.</h3>
+            <h3>От: {device?.price}руб.</h3>
             <Button variant={'outline-dark'} onClick={() => addDeviceInBasket(device)}>
               Добавить в корзину
             </Button>
@@ -68,7 +77,7 @@ const DevicePage = observer(() => {
       </Row>
       <Row className='d-flex flex-column mt-3'>
         <h1>Характеристики:</h1>
-        {device.info.map((el, i) => (
+        {device?.info.map((el, i) => (
           <Row
             key={el.id}
             style={{ background: i % 2 === 0 ? 'lightgray' : 'transparent', padding: 10 }}>

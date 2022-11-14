@@ -21,10 +21,17 @@ const Shop = observer(() => {
   }, []);
 
   React.useEffect(() => {
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 3).then((data) => {
-      device.setDevices(data.rows);
-      device.setTotalCount(data.count);
-    });
+    if (device.selectedType === 'Все') {
+      fetchDevices(null, device.selectedBrand.id, device.page, 3).then((data) => {
+        device.setDevices(data.rows);
+        device.setTotalCount(data.count);
+      });
+    } else {
+      fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 3).then((data) => {
+        device.setDevices(data.rows);
+        device.setTotalCount(data.count);
+      });
+    }
   }, [device.page, device.selectedType, device.selectedBrand]);
 
   return (

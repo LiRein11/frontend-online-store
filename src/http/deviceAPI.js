@@ -48,8 +48,13 @@ export const addDeviceToBasket = async (device) => {
   return data;
 };
 
+export const addDeviceToBasketNoname = async (device) => {
+  const { data } = await $host.post('api/basket/', device);
+  return data;
+};
+
 export const getDevicesFromBasket = async () => {
-  const { data } = await $authHost.get('api/basket/devices');
+  const { data } = await $host.get('api/basket/devices');
   return data;
 };
 
@@ -58,11 +63,20 @@ export const getOneBasket = async () => {
   return data;
 };
 
-export const deleteDeviceFromBasket = async(id)=>{
-  await $authHost.delete('api/basket/devices/' + id)
-}
+export const deleteDeviceFromBasket = async (id) => {
+  await $authHost.delete('api/basket/devices/' + id);
+};
+
+export const deleteDeviceFromBasketNoname = async (id) => {
+  await $authHost.delete('api/basket/devices/' + id);
+};
 
 export const addRating = async (body) => {
-  const {data} = await $authHost.post('api/rating/', body);
+  const { data } = await $authHost.post('api/rating/', body);
+  return data;
+};
+
+export const checkRating = async (body) => {
+  const { data } = await $authHost.post('api/rating/check', body);
   return data;
 };

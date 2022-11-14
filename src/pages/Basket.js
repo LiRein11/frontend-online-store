@@ -5,8 +5,7 @@ import { Context } from '..';
 import ItemInBasket from '../components/ItemInBasket';
 
 const Basket = observer(() => {
-  const { basket } = useContext(Context);
-  console.log(basket.Basket);
+  const { basket, user } = useContext(Context);
   if (basket.Basket.length === 0) {
     return (
       <div className='d-flex flex-column align-items-center mt-3'>
@@ -16,19 +15,33 @@ const Basket = observer(() => {
       </div>
     );
   }
-
+console.log(basket.Basket)
   return (
     <Container>
       <h1 className='text-center mt-2'>Ваша корзина</h1>
       <Row>
-        {basket.Basket.map((obj, i) => (
-          <div key={obj.id}>
-            <ItemInBasket obj={obj} />
-            <Button variant='outline-dark' onClick={() => basket.setDeleteDeviceFromBasket(obj)}>
-              Удалить
-            </Button>
-          </div>
-        ))}
+        {user.isAuth
+          ? basket.Basket.map((obj, i) => (
+              <div key={obj.id}>
+                <ItemInBasket obj={obj} />
+                <Button
+                  variant='outline-dark'
+                  onClick={() => basket.setDeleteDeviceFromBasket(obj, true)}>
+                  Удалить
+                </Button>
+              </div>
+            ))
+          : basket.Basket.map((obj, i) => (
+              <div key={i}>
+                <ItemInBasket obj={obj} />
+                <Button
+                  variant='outline-dark'
+                  onClick={() => basket.setDeleteDeviceFromBasket(obj, i)}>
+                  Удалить
+                </Button>
+              </div>
+            ))}
+        {}
       </Row>
     </Container>
   );

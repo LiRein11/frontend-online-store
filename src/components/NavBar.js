@@ -29,11 +29,7 @@ const NavBar = observer(({ price, countItem }) => {
                 <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._basket.length}
                 </div>
-                <Image
-                  src={cart}
-                  width={18}
-                  height={18}
-                  onClick={() => navigate(BASKET_ROUTE)}></Image>
+                <Image src={cart} width={18} height={18} onClick={() => navigate(BASKET_ROUTE)}></Image>
                 <div className='ml-2' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._totalPrice} RUB
                 </div>
@@ -47,6 +43,20 @@ const NavBar = observer(({ price, countItem }) => {
             </Nav>
           ) : (
             <Nav className='me-auto' style={{ color: 'white' }}>
+              <NavLink className='d-flex align-items-center' >
+                <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
+                  {basket._basket.length}
+                </div>
+                <Image
+                  src={cart}
+                  width={18}
+                  height={18}
+                  onClick={() => navigate(BASKET_ROUTE)}
+                  ></Image>
+                <div className='ml-2' style={{ textDecoration: 'none', color: 'white' }}>
+                  {basket._totalPrice} RUB
+                </div>
+              </NavLink>
               <Button variant={'outline-light'} onClick={() => navigate(LOGIN_ROUTE)}>
                 Авторизация
               </Button>

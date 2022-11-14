@@ -4,39 +4,51 @@ import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import NavBar from './components/NavBar';
-import { getDevicesFromBasket, getOneBasket } from './http/deviceAPI';
+import { getOneBasket, getOneBaskett } from './http/deviceAPI';
 import { check } from './http/userAPI';
 import { Context } from './index';
 
 const App = observer(() => {
   const { user, basket } = useContext(Context);
-  const [loading, setLoading] = useState(true); // Загрузка страницы, как только запрос на сервер выполнится, пользователь зайдет, и вся страница прогрузится, состояние станет false
+  const [loading, setLoading] = useState(false); // Загрузка страницы, как только запрос на сервер выполнится, пользователь зайдет, и вся страница прогрузится, состояние станет false
 
   useEffect(() => {
-    check()
-      .then((data) => {
-        user.setUser(true);
-        user.setIsAuth(true);
-      })
-      .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара
-  }, []);
+    if (localStorage.getItem('token')) {
+      setLoading(true);
+      check()
+        .then((data) => {
+          user.setUser(data);
+          user.setIsAuth(true);
+        })
+        .finally(() => setLoading(false)); // Чтобы не было перерендеринга навбара
+    }
+  }, [user]);
 
   useEffect(() => {
     // if (user.isAuth === true) {
-    //   getDevicesFromBasket().then((data) => {
+    //   getOneBasket().then((data) => {
     //     for (let key in data) {
-    //       basket.setBasket(data[key]); 
+    //       basket.setBasket(data[key]);
     //     }
     //   });
     // }
-    if(user.isAuth === true){
-      getOneBasket().then((data)=>{
-        basket.setOneBasket(data.basket_devices)
-      })
-    } else {
-      basket.setResetBasket()
+    if (user.isAuth === true) {
+      basket.setResetBasket();
+      getOneBasket().then((data) => {
+        basket.setOneBasket(data.basket_devices, true);
+      });
     }
-  }, [user.isAuth]); 
+    else if (user.isAuth === false) {
+      basket.setResetBasket();
+
+      const savedBasket = JSON.parse(localStorage.getItem('basket'));
+
+        basket.setOneBasket(savedBasket);
+
+        console.log(savedBasket)
+
+    }
+  }, [basket, user.isAuth]);
 
   if (loading) {
     return <Spinner animation={'grow'} />;
