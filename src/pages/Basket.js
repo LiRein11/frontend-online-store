@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
+import uuid from 'react-uuid';
 import { Context } from '..';
 import ItemInBasket from '../components/ItemInBasket';
 
@@ -15,14 +16,14 @@ const Basket = observer(() => {
       </div>
     );
   }
-console.log(basket.Basket)
+
   return (
     <Container>
       <h1 className='text-center mt-2'>Ваша корзина</h1>
       <Row>
         {user.isAuth
           ? basket.Basket.map((obj, i) => (
-              <div key={obj.id}>
+              <div key={uuid()}>  
                 <ItemInBasket obj={obj} />
                 <Button
                   variant='outline-dark'
@@ -36,7 +37,7 @@ console.log(basket.Basket)
                 <ItemInBasket obj={obj} />
                 <Button
                   variant='outline-dark'
-                  onClick={() => basket.setDeleteDeviceFromBasket(obj, i)}>
+                  onClick={() => basket.setDeleteDeviceFromBasket(obj, false, i)}>
                   Удалить
                 </Button>
               </div>

@@ -4,7 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import NavBar from './components/NavBar';
-import { getOneBasket, getOneBaskett } from './http/deviceAPI';
+import { getOneBasket} from './http/deviceAPI';
 import { check } from './http/userAPI';
 import { Context } from './index';
 
@@ -25,28 +25,17 @@ const App = observer(() => {
   }, [user]);
 
   useEffect(() => {
-    // if (user.isAuth === true) {
-    //   getOneBasket().then((data) => {
-    //     for (let key in data) {
-    //       basket.setBasket(data[key]);
-    //     }
-    //   });
-    // }
     if (user.isAuth === true) {
       basket.setResetBasket();
       getOneBasket().then((data) => {
         basket.setOneBasket(data.basket_devices, true);
       });
-    }
-    else if (user.isAuth === false) {
+    } else if (user.isAuth === false) {
       basket.setResetBasket();
 
       const savedBasket = JSON.parse(localStorage.getItem('basket'));
 
-        basket.setOneBasket(savedBasket);
-
-        console.log(savedBasket)
-
+      basket.setOneBasket(savedBasket);
     }
   }, [basket, user.isAuth]);
 

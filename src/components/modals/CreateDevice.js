@@ -11,8 +11,6 @@ const CreateDevice = observer(({ show, onHide }) => {
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState([]);
 
-  console.log(info);
-
   React.useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data));
     fetchBrands().then((data) => device.setBrands(data));

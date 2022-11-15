@@ -13,7 +13,7 @@ const NavBar = observer(({ price, countItem }) => {
   const logout = () => {
     user.setUser({});
     user.setIsAuth(false);
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
   };
 
   return (
@@ -25,11 +25,11 @@ const NavBar = observer(({ price, countItem }) => {
           </NavLink>
           {user.isAuth ? (
             <Nav className='me-auto' style={{ color: 'white' }}>
-              <NavLink className='d-flex align-items-center'>
+              <NavLink className='d-flex align-items-center' href={BASKET_ROUTE}>
                 <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._basket.length}
                 </div>
-                <Image src={cart} width={18} height={18} onClick={() => navigate(BASKET_ROUTE)}></Image>
+                <Image src={cart} width={18} height={18}></Image>
                 <div className='ml-2' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._totalPrice} RUB
                 </div>
@@ -43,16 +43,11 @@ const NavBar = observer(({ price, countItem }) => {
             </Nav>
           ) : (
             <Nav className='me-auto' style={{ color: 'white' }}>
-              <NavLink className='d-flex align-items-center' >
+              <NavLink className='d-flex align-items-center' href={BASKET_ROUTE}>
                 <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._basket.length}
                 </div>
-                <Image
-                  src={cart}
-                  width={18}
-                  height={18}
-                  onClick={() => navigate(BASKET_ROUTE)}
-                  ></Image>
+                <Image src={cart} width={18} height={18}></Image>
                 <div className='ml-2' style={{ textDecoration: 'none', color: 'white' }}>
                   {basket._totalPrice} RUB
                 </div>

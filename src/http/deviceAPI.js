@@ -54,7 +54,7 @@ export const addDeviceToBasketNoname = async (device) => {
 };
 
 export const getDevicesFromBasket = async () => {
-  const { data } = await $host.get('api/basket/devices');
+  const { data } = await $authHost.get('api/basket/devices');
   return data;
 };
 
@@ -64,10 +64,6 @@ export const getOneBasket = async () => {
 };
 
 export const deleteDeviceFromBasket = async (id) => {
-  await $authHost.delete('api/basket/devices/' + id);
-};
-
-export const deleteDeviceFromBasketNoname = async (id) => {
   await $authHost.delete('api/basket/devices/' + id);
 };
 
