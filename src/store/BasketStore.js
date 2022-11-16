@@ -53,6 +53,11 @@ export default class BasketStore {
     }
   }
 
+  setDeleteAllDeviceFromBasket() {
+    this._totalPrice = 0;
+    return (this._basket = []);
+  }
+
   setResetBasket() {
     this._basket = [];
     this._totalPrice = 0;

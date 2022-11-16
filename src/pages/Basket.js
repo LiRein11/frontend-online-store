@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row, Button, NavLink } from 'react-bootstrap';
 import uuid from 'react-uuid';
 import { Context } from '..';
 import ItemInBasket from '../components/ItemInBasket';
+import { ORDERING_ROUTE } from '../utils/consts';
 
 const Basket = observer(() => {
   const { basket, user } = useContext(Context);
@@ -20,6 +21,9 @@ const Basket = observer(() => {
   return (
     <Container>
       <h1 className='text-center mt-2'>Ваша корзина</h1>
+      <NavLink href={ORDERING_ROUTE}>
+        <Button>Check</Button>
+      </NavLink>
       <Row>
         {user.isAuth
           ? basket.Basket.map((obj, i) => (
