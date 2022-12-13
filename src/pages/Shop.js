@@ -19,7 +19,7 @@ const Shop = observer(() => {
       device.setTotalCount(data.count);
     });
   }, []);
-
+  
   React.useEffect(() => {
     if (device.selectedType === 'Все') {
       fetchDevices(null, device.selectedBrand.id, device.page, 3).then((data) => {

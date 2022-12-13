@@ -22,7 +22,7 @@ const Basket = observer(() => {
     <Container>
       <h1 className='text-center mt-2'>Ваша корзина</h1>
       <NavLink href={ORDERING_ROUTE}>
-        <Button>Check</Button>
+        <Button>Checkout</Button>
       </NavLink>
       <Row>
         {user.isAuth

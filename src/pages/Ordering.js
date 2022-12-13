@@ -10,6 +10,8 @@ const Ordering = () => {
   const [phone, setPhone] = React.useState(null);
   const navigate = useNavigate();
 
+  console.log(basket.Basket)
+  console.log(basket);
   const buy = () => {
     let order = {
       mobile: phone,
@@ -19,7 +21,8 @@ const Ordering = () => {
     if (user.isAuth) {
       order.auth = true;
     }
-
+    console.log(order)
+    
     sendOrder(order).then((data) => {
       console.log(data);
       basket.setDeleteAllDeviceFromBasket();
@@ -38,7 +41,7 @@ const Ordering = () => {
       </Form>
       <Row>
         <Col xs={12}>
-          <Button variant='secondary' onClick={buy}>
+          <Button variant='secondary' onClick={()=>buy()}>
             Buy
           </Button>
         </Col>

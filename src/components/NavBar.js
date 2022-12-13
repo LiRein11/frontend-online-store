@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, Container, Image, Nav, Navbar, NavLink } from 'react-bootstrap';
-import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, ORDER_ROUTE, SHOP_ROUTE } from '../utils/consts';
 import { Context } from '../index';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ const NavBar = observer(({ price, countItem }) => {
     user.setUser({});
     user.setIsAuth(false);
     localStorage.removeItem('token');
+    basket.setResetBasket();
   };
 
   return (
@@ -23,7 +24,7 @@ const NavBar = observer(({ price, countItem }) => {
           <NavLink style={{ color: 'white' }} href={SHOP_ROUTE}>
             Купить девайс
           </NavLink>
-          {user.isAuth ? (
+          {(user.isAuth && user.user.role === 'ADMIN') ? (
             <Nav className='me-auto' style={{ color: 'white' }}>
               <NavLink className='d-flex align-items-center' href={BASKET_ROUTE}>
                 <div className='mr-1' style={{ textDecoration: 'none', color: 'white' }}>
@@ -34,6 +35,12 @@ const NavBar = observer(({ price, countItem }) => {
                   {basket._totalPrice} RUB
                 </div>
               </NavLink>
+              <Button
+                className='mr-3'
+                variant='outline-light'
+                onClick={() => navigate(ORDER_ROUTE)}>
+                Заказы
+              </Button>
               <Button variant={'outline-light'} onClick={() => navigate(ADMIN_ROUTE)}>
                 Админ панель
               </Button>

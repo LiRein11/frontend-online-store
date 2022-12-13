@@ -4,19 +4,22 @@ export const sendOrder = async ({ auth, mobile, basket }) => {
   if (auth) {
     const { data } = await $authHost({
       method: 'POST',
-      url: 'api/order',
+      url: 'api/order/',
       data: { mobile, basket },
     });
     return data;
   } else {
-    const { data } = await $host({ method: 'POST', url: 'apo/order', data: { mobile, basket } });
+    const { data } = await $host({ method: 'POST', url: 'api/order/', data: { mobile, basket } });
     return data;
   }
 };
 
-export const fetchOrders = async ({ limit, page, complete }) => {
+
+// limit=${limit}&page=${page}
+//  limit, page,
+export const fetchOrders = async ({ complete }) => {
   const { data } = await $authHost.get(
-    `api/order?limit=${limit}&page=${page}&complete=${complete}`,
+    `api/order?complete=${complete}`,
   );
   return data;
 };

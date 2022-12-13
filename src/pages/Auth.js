@@ -29,7 +29,7 @@ const Auth = observer(() => {
       alert(e.response.data.message)
     }
   };
-
+console.log()
   return (
     <Container
       className='d-flex justify-content-center align-items-center'

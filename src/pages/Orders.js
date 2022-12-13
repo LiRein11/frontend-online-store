@@ -6,49 +6,56 @@ import { fetchOrders } from '../http/ordersAPI';
 const Orders = () => {
   const [loading, setLoading] = React.useState(false);
   const [orders, setOrders] = React.useState([]);
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [count, setCount] = React.useState(0);
+  // const [currentPage, setCurrentPage] = React.useState(1);
+  // const [count, setCount] = React.useState(0);
   const [filter, setFilter] = React.useState('Все');
   const [rerender, setRerender] = React.useState(false);
 
-  const limit = 5;
-  const pageCount = Math.ceil(Number(count) / limit);
-  const pages = [];
+  // const limit = 5;
+  // const pageCount = Math.ceil(Number(count) / limit);
+  // const pages = [];
 
+
+  // { limit, page: 1 }
   React.useEffect(() => {
-    fetchOrders({ limit, page: 1 }).then((data) => {
+    fetchOrders().then((data) => {
       setOrders(data);
       setLoading(false);
-      setCount(data.count);
+      // setCount(data.count);
     });
   }, []);
 
-  React.useEffect(() => {
-    setLoading(true);
-    fetchOrders({ limit, page: currentPage }).then((data) => {
-      setOrders(data);
-      setLoading(false);
-    });
-  }, [currentPage]);
 
+  // { limit, page: currentPage }
+  // React.useEffect(() => {
+  //   setLoading(true);
+  //   fetchOrders().then((data) => {
+  //     setOrders(data);
+  //     setLoading(false);
+  //   });
+  // }, [currentPage]);
+
+
+  // limit, page: currentPage,
   React.useEffect(() => {
     setLoading(true);
-    fetchOrders({ limit, page: currentPage, complete: filter }).then((data) => {
+    fetchOrders({  complete: filter }).then((data) => {
       setOrders(data);
       setLoading(false);
-      setCount(data.count);
-      setCurrentPage(1);
+      // setCount(data.count);
+      // setCurrentPage(1);
     });
   }, [filter]);
 
   //Ререндер после изменения статуса или удаления заказа
+  // limit, page: currentPage,
   React.useEffect(() => {
     setLoading(true);
-    fetchOrders({ limit, page: currentPage, complete: filter }).then((data) => {
+    fetchOrders({  complete: filter }).then((data) => {
       setOrders(data);
       setLoading(false);
-      setCount(data.count);
-      setCurrentPage(1);
+      // setCount(data.count);
+      // setCurrentPage(1);
     });
   }, [rerender]);
 
@@ -60,16 +67,16 @@ const Orders = () => {
     return <Spinner animation='grow' />;
   }
 
-  for (let number = 1; number < pageCount + 1; number++) {
-    pages.push(
-      <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={() => setCurrentPage(number)}>
-        {number}
-      </Pagination.Item>,
-    );
-  }
+  // for (let number = 1; number < pageCount + 1; number++) {
+  //   pages.push(
+  //     <Pagination.Item
+  //       key={number}
+  //       active={number === currentPage}
+  //       onClick={() => setCurrentPage(number)}>
+  //       {number}
+  //     </Pagination.Item>,
+  //   );
+  // }
 
   return (
     <Container className='d-flex flex-column'>
@@ -117,9 +124,9 @@ const Orders = () => {
           />
         ))}
       </ListGroup>
-      <Pagination size='sm' className='mt-4 mb-4' style={{ margin: '0 auto' }}>
+      {/* <Pagination size='sm' className='mt-4 mb-4' style={{ margin: '0 auto' }}>
         {pages}
-      </Pagination>
+      </Pagination> */}
     </Container>
   );
 };
