@@ -10,8 +10,6 @@ const Ordering = () => {
   const [phone, setPhone] = React.useState(null);
   const navigate = useNavigate();
 
-  console.log(basket.Basket)
-  console.log(basket);
   const buy = () => {
     let order = {
       mobile: phone,
@@ -25,7 +23,7 @@ const Ordering = () => {
     
     sendOrder(order).then((data) => {
       console.log(data);
-      basket.setDeleteAllDeviceFromBasket();
+      basket.setResetBasket(user.isAuth);
       navigate(SHOP_ROUTE);
     });
   };
@@ -34,14 +32,14 @@ const Ordering = () => {
       <Form>
         <Form.Control
           placeholder='Введите ваш телефон...'
-          value={phone}
+          value={phone || ''}
           onChange={(e) => setPhone(e.target.value)}
           className='mt-1'
         />
       </Form>
       <Row>
         <Col xs={12}>
-          <Button variant='secondary' onClick={()=>buy()}>
+          <Button variant='secondary' onClick={() => buy()}>
             Buy
           </Button>
         </Col>

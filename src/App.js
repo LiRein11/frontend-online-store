@@ -31,11 +31,10 @@ const App = observer(() => {
         basket.setOneBasket(data.basket_devices, true);
       });
     } else if (user.isAuth === false) {
-      basket.setResetBasket();
 
       const savedBasket = JSON.parse(localStorage.getItem('basket'));
 
-      basket.setOneBasket(savedBasket);
+      basket.setOneBasket(savedBasket, false);
     }
   }, [basket, user.isAuth]);
 

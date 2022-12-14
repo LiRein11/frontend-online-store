@@ -18,7 +18,7 @@ const Orders = () => {
 
   // { limit, page: 1 }
   React.useEffect(() => {
-    fetchOrders().then((data) => {
+    fetchOrders({ complete: filter }).then((data) => {
       setOrders(data);
       setLoading(false);
       // setCount(data.count);

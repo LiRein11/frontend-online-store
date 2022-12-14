@@ -17,7 +17,7 @@ const Basket = observer(() => {
       </div>
     );
   }
-
+  console.log(basket)
   return (
     <Container>
       <h1 className='text-center mt-2'>Ваша корзина</h1>

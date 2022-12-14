@@ -25,7 +25,7 @@ const DevicePage = observer(() => {
     if (user.isAuth) {
       addDeviceToBasket(device).then(() => basket.setBasket(device, true));
     } else if (user.isAuth===false){
-      basket.setBasket(device);
+      basket.setBasket(device, false);
     }
   };
 

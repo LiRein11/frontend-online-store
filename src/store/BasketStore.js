@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { deleteDeviceFromBasket } from '../http/deviceAPI';
+import { deleteBasket, deleteDeviceFromBasket } from '../http/deviceAPI';
 
 export default class BasketStore {
   constructor() {
@@ -53,14 +53,14 @@ export default class BasketStore {
     }
   }
 
-  setDeleteAllDeviceFromBasket() {
-    this._totalPrice = 0;
-    return (this._basket = []);
-  }
-
-  setResetBasket() {
+  setResetBasket(isAuth=false) {
     this._basket = [];
     this._totalPrice = 0;
+    if(isAuth===true){
+      deleteBasket()
+    }else{
+      localStorage.removeItem('basket');
+    }
   }
 
   get Basket() {

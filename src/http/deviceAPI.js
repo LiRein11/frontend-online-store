@@ -76,3 +76,8 @@ export const checkRating = async (body) => {
   const { data } = await $authHost.post('api/rating/check', body);
   return data;
 };
+
+export const deleteBasket = async ()=>{
+  const {data} = await $authHost.delete('api/basket/');
+  return data;
+}
